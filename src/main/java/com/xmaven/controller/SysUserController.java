@@ -26,24 +26,24 @@ public class SysUserController {
     SysUserService sysUserService;
 
     @RequestMapping("/list")
-    public ModelAndView page(ModelAndView mav,@RequestParam(defaultValue="1")Integer pageNum,@RequestParam(defaultValue="5")Integer pageSize){
+    public ModelAndView page(ModelAndView mav, @RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize) {
         PageInfo<SysUser> pageInfo = sysUserService.selectpage(pageNum, pageSize);
-        mav.addObject("pi",pageInfo);//把集合装入模型数据
+        mav.addObject("pi", pageInfo);//把集合装入模型数据
         mav.setViewName("selectpage");//路径：/WEB-INF/selectpage.jsp
         return mav;
     }
 
     //导出为Excel
     @RequestMapping("/down")
-    public void getExcel(HttpServletResponse response) throws IllegalAccessException, IOException, InstantiationException {
+    public void getExcel(HttpServletResponse response) throws IOException {
         List<SysUser> list = sysUserService.getAll();
-        DownExcel.download(response,SysUser.class,list);
+        DownExcel.download(response, SysUser.class, list);
     }
 
     //导入Excel
     @RequestMapping("/import")
     @ResponseBody
-    public String importexcel(@RequestParam(value = "excelFile") MultipartFile file) throws IOException{
+    public String importexcel(@RequestParam(value = "excelFile") MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), SysUser.class, new ExcelListener(sysUserService)).sheet().doRead();
         return "success";
     }

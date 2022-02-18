@@ -28,7 +28,7 @@ public class SysUserServiceImpl implements SysUserService {
         //取对象
         List<SysUser> list = this.sysUserMapper.selectAll();
         //放到集合里面
-        PageInfo<SysUser> pi = new PageInfo<SysUser>(list);
+        PageInfo<SysUser> pi = new PageInfo<>(list);
 
         return pi;
     }
